@@ -1,6 +1,5 @@
-//==============================================================================================================
-//                                       Initialize Databases
-//==============================================================================================================
+
+//Initialize Databases
 const the = require('await-the');
 const { faker } = require("@faker-js/faker");
 const _ = require('lodash');
@@ -10,11 +9,14 @@ let sourceDb;
 let targetDb;
 
 const initializeDatabases = () => {
-    sourceDb = new Datastore({                                 // The source database to sync updates from.
+    // The source database to sync updates from.
+    sourceDb = new Datastore({                                 
         inMemoryOnly: true,
         timestampData: true
     });
-    targetDb = new Datastore({                                 // The target database that sendEvents() will write too.
+    
+    // The target database that sendEvents() will write too.
+    targetDb = new Datastore({                                
         inMemoryOnly: true,
         timestampData: true
     });
@@ -22,26 +24,30 @@ const initializeDatabases = () => {
 
 const getDatabases = () => ({ sourceDb, targetDb });
 
+// initializing companies
 const load = async () => {
     const { sourceDb, targetDb } = getDatabases();                                      
-    const companies = [];                                      // initializing companies
-    const length = 10;                                         // set the size of data
+    const companies = [];                                      
+    const length = 10;                                         
     
-    for (let i = 0; i < length; i++) {                         // creates length number of data and pushes to the company array
+    // creates length number of data and pushes to the company array
+    for (let i = 0; i < length; i++) {                         
         companies.push({
         name: faker.company.companyName(),
         owner: faker.name.firstName(),
         amount: faker.datatype.number(),
       });
     }
-    _.forEach(companies, async function (company) {            // lodash iterate each data and insert into sourceDb
+    
+    // lodash iterate each data and insert into sourceDb
+    _.forEach(companies, async function (company) {            
         await sourceDb.insert(company);
         await the.wait(300);
     });
 }
 
 
-                                                               // Exports
+// Exports
 module.exports = {
   initializeDatabases,
   getDatabases,
