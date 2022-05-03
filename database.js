@@ -1,5 +1,7 @@
+/*
+Initialize Database
+*/
 
-//Initialize Databases
 const the = require('await-the');
 const { faker } = require("@faker-js/faker");
 const _ = require('lodash');
@@ -47,7 +49,9 @@ const load = async () => {
 }
 
 
-// Exports
+/* 
+Exports
+*/
 module.exports = {
   initializeDatabases,
   getDatabases,
