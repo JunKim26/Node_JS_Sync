@@ -1,20 +1,21 @@
-//==============================================================================================================
-//                                               Testing
-//==============================================================================================================
+/*
+Testing
+*/
 
-//uses mocha for testing
+// uses mocha for testing
 const the = require('await-the');
 const assert = require('assert');
 const {initializeDatabases,getDatabases,load} = require("./database.js");
 const {synchronize, syncAllNoLimit, syncWithLimit, syncAllSafely,syncAllSafelyNoRemove, syncNewChanges, touch, readTarget, readSource} = require("./syncFunc.js");
 
-                                                                     // Initialize Database and Load Data
+// Initialize Database and Load Data
 initializeDatabases()                                         
 load()              
 
 const { sourceDb, targetDb } = getDatabases();
 
-describe('syncAllNoLimit', () => {                                   // asserts that all of sourceDb synced to targetDb
+// asserts that all of sourceDb synced to targetDb
+describe('syncAllNoLimit', () => {                                   
   it('syncAllNoLimit function synced correct number of data to targetDb', () => {
     return syncAllNoLimit().then(result => {
       assert.equal(result, 10);
@@ -22,7 +23,8 @@ describe('syncAllNoLimit', () => {                                   // asserts 
   })
 })
 
-describe('syncWithLimit', () => {                                    // asserts that limited number of sourceDb synced to targetDb
+// asserts that limited number of sourceDb synced to targetDb
+describe('syncWithLimit', () => {                                    
   it('syncWithLimit function synced correct number of data to targetDb', () => {
     return syncWithLimit(3).then(result => {
       assert.equal(result, 3);
@@ -30,7 +32,8 @@ describe('syncWithLimit', () => {                                    // asserts 
   })
 })
 
-describe('syncWithLimit Non-Int Limit', () => {                      // asserts that syncWithLimit returned proper result
+// asserts that syncWithLimit returned proper result
+describe('syncWithLimit Non-Int Limit', () => {                      
   it('syncWithLimit function returned proper response', () => {
     return syncWithLimit("test").then(result => {
       assert.equal(result, "Limit not a positive integer");
@@ -38,7 +41,8 @@ describe('syncWithLimit Non-Int Limit', () => {                      // asserts 
   })
 })
 
-describe('syncWithLimit Negative Int Limit', () => {                 // asserts that syncWithLimit returned proper result
+// asserts that syncWithLimit returned proper result
+describe('syncWithLimit Negative Int Limit', () => {                 
   it('syncWithLimit function returned proper response', () => {
     return syncWithLimit(-1).then(result => {
       assert.equal(result, "Limit not a positive integer");
@@ -46,7 +50,8 @@ describe('syncWithLimit Negative Int Limit', () => {                 // asserts 
   })
 })
 
-describe('syncWithLimit Limit greater than sourceDb', () => {        // asserts that limited number of sourceDb synced to targetDb
+// asserts that limited number of sourceDb synced to targetDb
+describe('syncWithLimit Limit greater than sourceDb', () => {        
   it('syncWithLimit function synced correct number of data to targetDb', () => {
     return syncWithLimit(1000000).then(result => {
       assert.equal(result, 10);
@@ -54,8 +59,8 @@ describe('syncWithLimit Limit greater than sourceDb', () => {        // asserts 
   })
 })
 
-
-describe('syncAllSafely Normal Input', () => {                       // asserts that all sourceDb synced to targetDb in batches
+// asserts that all sourceDb synced to targetDb in batches
+describe('syncAllSafely Normal Input', () => {                       
   it('syncAllSafely function synced correct number of data to targetDb', () => {
     return syncAllSafely(2).then(result => {
       assert.equal(result, 10);
@@ -63,7 +68,8 @@ describe('syncAllSafely Normal Input', () => {                       // asserts 
   })
 })
 
-describe('syncAllSafely No Input', () => {                           // asserts that all sourceDb synced to targetDb in batches with no input
+// asserts that all sourceDb synced to targetDb in batches with no input
+describe('syncAllSafely No Input', () => {                          
   it('syncAllSafely function synced correct number of data to targetDb', () => {
     return syncAllSafely().then(result => {
       assert.equal(result, 10);
@@ -71,7 +77,8 @@ describe('syncAllSafely No Input', () => {                           // asserts 
   })
 })
 
-describe('syncAllSafely non-Int Input', () => {                      // asserts that all sourceDb safely synched with a non-int batch
+// asserts that all sourceDb safely synched with a non-int batch
+describe('syncAllSafely non-Int Input', () => {                      
   it('syncAllSafely function synced correct number of data to targetDb', () => {
     return syncAllSafely("test").then(result => {
       assert.equal(result, 10);
@@ -79,7 +86,8 @@ describe('syncAllSafely non-Int Input', () => {                      // asserts 
   })
 })
 
-describe('syncAllSafely negative Input', () => {                     // asserts that all sourceDb safely synched with a negative batch
+// asserts that all sourceDb safely synched with a negative batch
+describe('syncAllSafely negative Input', () => {                     
   it('syncAllSafely function synced correct number of data to targetDb', () => {
     return syncAllSafely(-1).then(result => {
       assert.equal(result, 10);
@@ -87,7 +95,8 @@ describe('syncAllSafely negative Input', () => {                     // asserts 
   })
 })
 
-describe('syncAllSafely batchSize greater than sourceDb', () => {                    // asserts that all sourceDb safely synched with a batch > sourceDb
+// asserts that all sourceDb safely synched with a batch > sourceDb
+describe('syncAllSafely batchSize greater than sourceDb', () => {                    
   it('syncAllSafely function synced correct number of data to targetDb', () => {
     return syncAllSafely(1000000).then(result => {
       assert.equal(result, 10);
@@ -95,8 +104,8 @@ describe('syncAllSafely batchSize greater than sourceDb', () => {               
   })
 })
 
-
-describe('syncAllSafelyNoRemove', () => {                            // asserts that all sourceDb synced to targetDb in batches
+// asserts that all sourceDb synced to targetDb in batches
+describe('syncAllSafelyNoRemove', () => {                            
   it('syncAllSafelyNoRemove function synced correct number of data to targetDb without removing from targetDb before sync', () => {
     return syncAllSafelyNoRemove(2).then(result => {
       assert.equal(result, 10);
@@ -104,10 +113,12 @@ describe('syncAllSafelyNoRemove', () => {                            // asserts 
   })
 })
 
-describe('syncNewChanges Update Test', () => {                       // asserts that all sourceDb safely synched with a batch > sourceDb
+// asserts that all sourceDb safely synched with a batch > sourceDb
+describe('syncNewChanges Update Test', () => {                       
   it('syncNewChanges function synced correct number of data to targetDb', () => {
     
-    touch()                                                          // updates all data that has an amount greater than 50000
+    // updates all data that has an amount greater than 50000
+    touch()                                                          
     readTarget("before");
     return syncNewChanges().then(result => {
       readTarget("after");
